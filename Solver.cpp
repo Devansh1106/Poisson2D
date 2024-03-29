@@ -48,7 +48,7 @@ int main (int argc, char** argv){
             //---------------irn generation--------------
             irn[0] = irn[1] = irn[2] = 1 + (rank * Nx) - 1;
             irn[s-1] = irn[s-2] = irn[s-3] = Nx  + (rank - 1) * Nx;
-            for(size_t i = 2; i < s-3; i++){
+            for(size_t i = 2; i < s-3; i++){                                                //wrong
                 irn[k] = irn[k+1] = irn[k+2] = irn[k+3] = i;
                 k += 4;
             }
@@ -57,7 +57,7 @@ int main (int argc, char** argv){
             jcn[0] = 1; jcn[1] = 2; jcn[2] = Nx + 1;
             jcn[s-1] = 2*Nx; jcn[s-2] = (rank*Nx) - 1; jcn[s-3] = Nx - 1;  
             for(size_t i = 3; i < s-3; i= i+4){
-                jcn[i] = irn[i] - 1;
+                jcn[i] = irn[i] - 1;                                                        //wrong
                 jcn[i+1] = irn[i+1];
                 jcn[i+2] = irn[i+2] + 1;
                 jcn[i+3] = irn[i+3] + 4;
