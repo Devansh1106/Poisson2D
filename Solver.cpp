@@ -131,9 +131,9 @@ int main (int argc, char** argv){
 
         //---------------a_per_rank generation----------------------
         for(size_t i = 0; i < s; i++){
-            if(irn_per_rank[i] - jcn_per_rank[i] == 0.0)
+            if(irn_per_rank[i] - jcn_per_rank[i] == 0)
                 a_per_rank[i] = -2/pow(delx,2) - 2/pow(dely,2);
-            else if (irn_per_rank[i] - jcn_per_rank[i] == 1.0 || irn_per_rank[i] - jcn_per_rank[i] == -1.0)
+            else if (irn_per_rank[i] - jcn_per_rank[i] == 1 || irn_per_rank[i] - jcn_per_rank[i] == -1)
                 a_per_rank[i] = -1.0/pow(delx,2);
             else if (irn_per_rank[i] - jcn_per_rank[i] == -Nx || irn_per_rank[i] - jcn_per_rank[i] == Nx)
                 a_per_rank[i] = -1.0/pow(dely,2);
