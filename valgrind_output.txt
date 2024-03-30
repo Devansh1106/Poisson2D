@@ -1,455 +1,70 @@
-==28267== Memcheck, a memory error detector
-==28267== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==28267== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==28267== Command: ./a.out
-==28267== 
-==28267== Syscall param socketcall.getsockopt(optlen) points to uninitialised byte(s)
-==28267==    at 0x4E0F5EE: getsockopt_syscall (getsockopt.c:29)
-==28267==    by 0x4E0F5EE: getsockopt (getsockopt.c:94)
-==28267==    by 0x5F28157: pmix_ptl_base_set_timeout (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5F2FA1A: pmix_ptl_base_make_connection (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5F36DF3: ??? (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5E363C1: PMIx_Init (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5DC8E4A: ext3x_client_init (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_pmix_ext3x.so)
-==28267==    by 0x55B3E6D: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_ess_singleton.so)
-==28267==    by 0x50584CB: orte_init (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
-==28267==    by 0x4963418: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267==  Address 0x1ffeffe87c is on thread 1's stack
-==28267==  in frame #2, created by pmix_ptl_base_make_connection (???:)
-==28267== 
-==28267== Syscall param socketcall.getsockopt(optlen_out) points to uninitialised byte(s)
-==28267==    at 0x4E0F5EE: getsockopt_syscall (getsockopt.c:29)
-==28267==    by 0x4E0F5EE: getsockopt (getsockopt.c:94)
-==28267==    by 0x5F28157: pmix_ptl_base_set_timeout (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5F2FA1A: pmix_ptl_base_make_connection (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5F36DF3: ??? (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5E363C1: PMIx_Init (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5DC8E4A: ext3x_client_init (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_pmix_ext3x.so)
-==28267==    by 0x55B3E6D: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_ess_singleton.so)
-==28267==    by 0x50584CB: orte_init (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
-==28267==    by 0x4963418: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267==  Address 0x1ffeffe87c is on thread 1's stack
-==28267==  in frame #2, created by pmix_ptl_base_make_connection (???:)
-==28267== 
-==28267== Syscall param setsockopt(optlen) contains uninitialised byte(s)
-==28267==    at 0x4E0FACE: setsockopt_syscall (setsockopt.c:29)
-==28267==    by 0x4E0FACE: setsockopt (setsockopt.c:95)
-==28267==    by 0x5F2FBA9: pmix_ptl_base_make_connection (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5F36DF3: ??? (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5E363C1: PMIx_Init (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5DC8E4A: ext3x_client_init (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_pmix_ext3x.so)
-==28267==    by 0x55B3E6D: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_ess_singleton.so)
-==28267==    by 0x50584CB: orte_init (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
-==28267==    by 0x4963418: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-hwloc x86 backend cannot work under Valgrind, disabling.
-May be reenabled by dumping CPUIDs with hwloc-gather-cpuid
-and reloading them under Valgrind with HWLOC_CPUID_PATH.
-==28267== Invalid write of size 4
-==28267==    at 0x111F1E: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267==  Address 0xa419c88 is 0 bytes after a block of size 56 alloc'd
-==28267==    at 0x484A2F3: operator new[](unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x111CC8: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Invalid read of size 4
-==28267==    at 0x111F3F: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267==  Address 0xa419c88 is 0 bytes after a block of size 56 alloc'd
-==28267==    at 0x484A2F3: operator new[](unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x111CC8: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Invalid write of size 4
-==28267==    at 0x111F41: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267==  Address 0xa419c94 is 12 bytes after a block of size 56 alloc'd
-==28267==    at 0x484A2F3: operator new[](unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x111CC8: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Invalid read of size 4
-==28267==    at 0x111F61: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267==  Address 0xa419c94 is 12 bytes after a block of size 56 alloc'd
-==28267==    at 0x484A2F3: operator new[](unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x111CC8: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Invalid write of size 4
-==28267==    at 0x111F63: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267==  Address 0xa419c90 is 8 bytes after a block of size 56 alloc'd
-==28267==    at 0x484A2F3: operator new[](unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x111CC8: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Invalid read of size 4
-==28267==    at 0x111F80: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267==  Address 0xa419c90 is 8 bytes after a block of size 56 alloc'd
-==28267==    at 0x484A2F3: operator new[](unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x111CC8: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Invalid write of size 4
-==28267==    at 0x111F82: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267==  Address 0xa419c8c is 4 bytes after a block of size 56 alloc'd
-==28267==    at 0x484A2F3: operator new[](unsigned long) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x111CC8: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Conditional jump or move depends on uninitialised value(s)
-==28267==    at 0x48F4304: PMPI_Gatherv (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x112C88: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Conditional jump or move depends on uninitialised value(s)
-==28267==    at 0x4F4EF66: opal_datatype_copy_content_same_ddt (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x48DE941: ompi_datatype_sndrcv (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48F417F: PMPI_Gatherv (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x112C88: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Use of uninitialised value of size 8
-==28267==    at 0x4F4EF68: opal_datatype_copy_content_same_ddt (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x48DE941: ompi_datatype_sndrcv (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48F417F: PMPI_Gatherv (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x112C88: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Conditional jump or move depends on uninitialised value(s)
-==28267==    at 0x485289C: memmove (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4F4DB0E: ??? (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x48DE941: ompi_datatype_sndrcv (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48F417F: PMPI_Gatherv (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x112C88: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Conditional jump or move depends on uninitialised value(s)
-==28267==    at 0x48528D6: memmove (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4F4DB0E: ??? (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x48DE941: ompi_datatype_sndrcv (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48F417F: PMPI_Gatherv (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x112C88: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Use of uninitialised value of size 8
-==28267==    at 0x485293B: memmove (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4F4DB0E: ??? (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x48DE941: ompi_datatype_sndrcv (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48F417F: PMPI_Gatherv (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x112C88: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Use of uninitialised value of size 8
-==28267==    at 0x4852990: memmove (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4F4DB0E: ??? (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x48DE941: ompi_datatype_sndrcv (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48F417F: PMPI_Gatherv (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x112C88: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Use of uninitialised value of size 8
-==28267==    at 0x112CE5: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Conditional jump or move depends on uninitialised value(s)
-==28267==    at 0x112DB4: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Conditional jump or move depends on uninitialised value(s)
-==28267==    at 0x484CA45: operator delete[](void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x112DC4: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Invalid free() / delete / delete[] / realloc()
-==28267==    at 0x484CA8F: operator delete[](void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x112DC4: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267==  Address 0x11c868 is in a r-- mapped file /mnt/c/Users/devan/Desktop/Poisson2D/a.out segment
-==28267== 
-==28267== Conditional jump or move depends on uninitialised value(s)
-==28267==    at 0x112DCD: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Conditional jump or move depends on uninitialised value(s)
-==28267==    at 0x484CA45: operator delete[](void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x112DDD: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Invalid free() / delete / delete[] / realloc()
-==28267==    at 0x484CA8F: operator delete[](void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x112DDD: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267==  Address 0x49adf20 is 0 bytes inside data symbol "ompi_mpi_op_land"
-==28267== 
-==28267== Conditional jump or move depends on uninitialised value(s)
-==28267==    at 0x112DE6: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Conditional jump or move depends on uninitialised value(s)
-==28267==    at 0x484CA45: operator delete[](void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x112DF6: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== Invalid free() / delete / delete[] / realloc()
-==28267==    at 0x484CA8F: operator delete[](void*) (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x112DF6: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267==  Address 0x49acf20 is 0 bytes inside data symbol "ompi_mpi_op_lor"
-==28267== 
-==28267== Invalid read of size 8
-==28267==    at 0x48C65CC: ompi_op_finalize (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48DC1C2: ompi_mpi_finalize (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x112DFB: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267==  Address 0xc0271c71c71c71f7 is not stack'd, malloc'd or (recently) free'd
-==28267== 
-[MSI:28267] *** Process received signal ***
-[MSI:28267] Signal: Segmentation fault (11)
-[MSI:28267] Signal code:  (128)
-[MSI:28267] Failing at address: (nil)
-[MSI:28267] [ 0] /lib/x86_64-linux-gnu/libc.so.6(+0x42520)[0x4d2a520]
-[MSI:28267] [ 1] /lib/x86_64-linux-gnu/libmpi.so.40(ompi_op_finalize+0x15c)[0x48c65cc]
-[MSI:28267] [ 2] /lib/x86_64-linux-gnu/libmpi.so.40(ompi_mpi_finalize+0x763)[0x48dc1c3]
-[MSI:28267] [ 3] ./a.out(+0xadfc)[0x112dfc]
-[MSI:28267] [ 4] /lib/x86_64-linux-gnu/libc.so.6(+0x29d90)[0x4d11d90]
-[MSI:28267] [ 5] /lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0x80)[0x4d11e40]
-[MSI:28267] [ 6] ./a.out(+0x9605)[0x111605]
-[MSI:28267] *** End of error message ***
-==28267== 
-==28267== Process terminating with default action of signal 11 (SIGSEGV)
-==28267==    at 0x4D7E9FC: __pthread_kill_implementation (pthread_kill.c:44)
-==28267==    by 0x4D7E9FC: __pthread_kill_internal (pthread_kill.c:78)
-==28267==    by 0x4D7E9FC: pthread_kill@@GLIBC_2.34 (pthread_kill.c:89)
-==28267==    by 0x4D2A475: raise (raise.c:26)
-==28267==    by 0x4F7BC1D: ??? (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x4D2A51F: ??? (in /usr/lib/x86_64-linux-gnu/libc.so.6)
-==28267==    by 0x48C65CB: ompi_op_finalize (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48DC1C2: ompi_mpi_finalize (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x112DFB: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== HEAP SUMMARY:
-==28267==     in use at exit: 3,058,189 bytes in 12,640 blocks
-==28267==   total heap usage: 27,713 allocs, 15,076 frees, 5,832,971 bytes allocated
-==28267== 
-==28267== 1 bytes in 1 blocks are definitely lost in loss record 3 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4D9058E: strdup (strdup.c:42)
-==28267==    by 0xA5580F4: ???
-==28267==    by 0xA54A7C3: ???
-==28267==    by 0x4F6A91F: mca_base_framework_components_register (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x4F6AC95: mca_base_framework_register (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x4F6ACF3: mca_base_framework_open (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x4963823: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== 10 bytes in 1 blocks are definitely lost in loss record 2,185 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4D9058E: strdup (strdup.c:42)
-==28267==    by 0xA5C1570: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_coll_libnbc.so)
-==28267==    by 0x400647D: call_init.part.0 (dl-init.c:70)
-==28267==    by 0x4006567: call_init (dl-init.c:33)
-==28267==    by 0x4006567: _dl_init (dl-init.c:117)
-==28267==    by 0x4E5CAF4: _dl_catch_exception (dl-error-skeleton.c:182)
-==28267==    by 0x400DFF5: dl_open_worker (dl-open.c:808)
-==28267==    by 0x400DFF5: dl_open_worker (dl-open.c:771)
-==28267==    by 0x4E5CA97: _dl_catch_exception (dl-error-skeleton.c:208)
-==28267==    by 0x400E34D: _dl_open (dl-open.c:883)
-==28267==    by 0x4D7863B: dlopen_doit (dlopen.c:56)
-==28267==    by 0x4E5CA97: _dl_catch_exception (dl-error-skeleton.c:208)
-==28267==    by 0x4E5CB62: _dl_catch_error (dl-error-skeleton.c:227)
-==28267== 
-==28267== 24 bytes in 1 blocks are possibly lost in loss record 4,298 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4E07F9E: tsearch (tsearch.c:337)
-==28267==    by 0x4D2D06A: __add_to_environ (setenv.c:233)
-==28267==    by 0x48543FF: setenv (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4F7AA87: opal_setenv (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x55AD2DB: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_schizo_orte.so)
-==28267==    by 0x504D5AE: orte_schizo_base_check_launch_environment (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
-==28267==    by 0x5058445: orte_init (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
-==28267==    by 0x4963418: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== 24 bytes in 1 blocks are possibly lost in loss record 4,299 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4E07F9E: tsearch (tsearch.c:337)
-==28267==    by 0x4D2D06A: __add_to_environ (setenv.c:233)
-==28267==    by 0x48543FF: setenv (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4F7AA87: opal_setenv (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x55B4052: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_ess_singleton.so)
-==28267==    by 0x50584CB: orte_init (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
-==28267==    by 0x4963418: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== 24 bytes in 1 blocks are possibly lost in loss record 4,300 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4E07F9E: tsearch (tsearch.c:337)
-==28267==    by 0x4D2D06A: __add_to_environ (setenv.c:233)
-==28267==    by 0x48543FF: setenv (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4F7AA87: opal_setenv (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x55B4B14: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_ess_singleton.so)
-==28267==    by 0x50584CB: orte_init (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
-==28267==    by 0x4963418: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== 24 bytes in 1 blocks are possibly lost in loss record 4,301 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4E07F9E: tsearch (tsearch.c:337)
-==28267==    by 0x4D2D06A: __add_to_environ (setenv.c:233)
-==28267==    by 0x48543FF: setenv (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4F7AA87: opal_setenv (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x55B4DA3: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_ess_singleton.so)
-==28267==    by 0x50584CB: orte_init (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
-==28267==    by 0x4963418: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== 30 bytes in 1 blocks are definitely lost in loss record 5,033 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0xA6364E6: ???
-==28267==    by 0xA6388F5: ???
-==28267==    by 0x400647D: call_init.part.0 (dl-init.c:70)
-==28267==    by 0x4006567: call_init (dl-init.c:33)
-==28267==    by 0x4006567: _dl_init (dl-init.c:117)
-==28267==    by 0x4E5CAF4: _dl_catch_exception (dl-error-skeleton.c:182)
-==28267==    by 0x400DFF5: dl_open_worker (dl-open.c:808)
-==28267==    by 0x400DFF5: dl_open_worker (dl-open.c:771)
-==28267==    by 0x4E5CA97: _dl_catch_exception (dl-error-skeleton.c:208)
-==28267==    by 0x400E34D: _dl_open (dl-open.c:883)
-==28267==    by 0x4D7863B: dlopen_doit (dlopen.c:56)
-==28267==    by 0x4E5CA97: _dl_catch_exception (dl-error-skeleton.c:208)
-==28267==    by 0x4E5CB62: _dl_catch_error (dl-error-skeleton.c:227)
-==28267== 
-==28267== 38 bytes in 1 blocks are definitely lost in loss record 5,683 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4D70157: __vasprintf_internal (vasprintf.c:71)
-==28267==    by 0x4E1E192: __asprintf_chk (asprintf_chk.c:34)
-==28267==    by 0x4F89678: opal_hwloc_base_get_locality_string (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x50240E2: orte_ess_base_proc_binding (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
-==28267==    by 0x55B4F03: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_ess_singleton.so)
-==28267==    by 0x50584CB: orte_init (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
-==28267==    by 0x4963418: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== 79 (64 direct, 15 indirect) bytes in 1 blocks are definitely lost in loss record 6,834 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0xA4EE2AA: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_mpool_hugepage.so)
-==28267==    by 0x4F5FA9E: mca_base_framework_components_open (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x4F8F745: ??? (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x4F6AD68: mca_base_framework_open (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x49637C4: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== 88 (24 direct, 64 indirect) bytes in 1 blocks are definitely lost in loss record 6,973 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x50968AF: hwloc_bitmap_alloc (in /usr/lib/x86_64-linux-gnu/libhwloc.so.15.5.2)
-==28267==    by 0x502455B: orte_ess_base_proc_binding (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
-==28267==    by 0x55B4F03: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_ess_singleton.so)
-==28267==    by 0x50584CB: orte_init (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
-==28267==    by 0x4963418: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== 96 bytes in 4 blocks are possibly lost in loss record 7,046 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4E07F9E: tsearch (tsearch.c:337)
-==28267==    by 0x4D2D06A: __add_to_environ (setenv.c:233)
-==28267==    by 0x48543FF: setenv (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4F7AA87: opal_setenv (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x55B4AE3: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_ess_singleton.so)
-==28267==    by 0x50584CB: orte_init (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
-==28267==    by 0x4963418: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== 304 bytes in 1 blocks are possibly lost in loss record 8,304 of 8,571
-==28267==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x40147D9: calloc (rtld-malloc.h:44)
-==28267==    by 0x40147D9: allocate_dtv (dl-tls.c:375)
-==28267==    by 0x40147D9: _dl_allocate_tls (dl-tls.c:634)
-==28267==    by 0x4D7D7B4: allocate_stack (allocatestack.c:430)
-==28267==    by 0x4D7D7B4: pthread_create@@GLIBC_2.34 (pthread_create.c:647)
-==28267==    by 0x4F3FDB9: opal_thread_start (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x4F4706E: opal_progress_thread_init (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
-==28267==    by 0x55B3DCD: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_ess_singleton.so)
-==28267==    by 0x50584CB: orte_init (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
-==28267==    by 0x4963418: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== 368 bytes in 1 blocks are possibly lost in loss record 8,345 of 8,571
-==28267==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x40147D9: calloc (rtld-malloc.h:44)
-==28267==    by 0x40147D9: allocate_dtv (dl-tls.c:375)
-==28267==    by 0x40147D9: _dl_allocate_tls (dl-tls.c:634)
-==28267==    by 0x4D7D7B4: allocate_stack (allocatestack.c:430)
-==28267==    by 0x4D7D7B4: pthread_create@@GLIBC_2.34 (pthread_create.c:647)
-==28267==    by 0x5E13F59: pmix_thread_start (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5E848AB: ??? (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5E84B17: pmix_progress_thread_start (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5E85AA5: pmix_rte_init (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5E3563A: PMIx_Init (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5DC8E4A: ext3x_client_init (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_pmix_ext3x.so)
-==28267==    by 0x55B3E6D: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_ess_singleton.so)
-==28267==    by 0x50584CB: orte_init (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
-==28267==    by 0x4963418: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267== 
-==28267== 552 bytes in 1 blocks are definitely lost in loss record 8,417 of 8,571
-==28267==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x5E3DC13: PMIx_Get_nb (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5E3E22C: PMIx_Get (in /usr/lib/x86_64-linux-gnu/pmix2/lib/libpmix.so.2.5.2)
-==28267==    by 0x5DCA4B7: ext3x_get (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_pmix_ext3x.so)
-==28267==    by 0x48C915A: ompi_proc_complete_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x4963A97: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== 688 bytes in 1 blocks are definitely lost in loss record 8,455 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4952BC6: ompi_op_base_op_select (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48CB446: ompi_op_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x496375D: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== 688 bytes in 1 blocks are definitely lost in loss record 8,456 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0xA4AD4FB: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_op_avx.so)
-==28267==    by 0x4952EBE: ompi_op_base_op_select (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48CB446: ompi_op_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x496375D: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== 688 bytes in 1 blocks are definitely lost in loss record 8,457 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4952BC6: ompi_op_base_op_select (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48CB5A4: ompi_op_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x496375D: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== 688 bytes in 1 blocks are definitely lost in loss record 8,458 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0xA4AD4FB: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_op_avx.so)
-==28267==    by 0x4952EBE: ompi_op_base_op_select (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48CB5A4: ompi_op_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x496375D: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
-==28267==    by 0x111A3D: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
-==28267== 
-==28267== 14,016 bytes in 4 blocks are possibly lost in loss record 8,548 of 8,571
-==28267==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==28267==    by 0x4005D97: malloc (rtld-malloc.h:56)
-==28267==    by 0x4005D97: _dlfo_mappings_segment_allocate (dl-find_object.c:217)
-==28267==    by 0x4005D97: _dl_find_object_update_1 (dl-find_object.c:671)
-==28267==    by 0x4005D97: _dl_find_object_update (dl-find_object.c:804)
-==28267==    by 0x400ECCF: dl_open_worker_begin (dl-open.c:735)
-==28267==    by 0x4E5CA97: _dl_catch_exception (dl-error-skeleton.c:208)
-==28267==    by 0x400DF99: dl_open_worker (dl-open.c:782)
-==28267==    by 0x4E5CA97: _dl_catch_exception (dl-error-skeleton.c:208)
-==28267==    by 0x400E34D: _dl_open (dl-open.c:883)
-==28267==    by 0x4D7863B: dlopen_doit (dlopen.c:56)
-==28267==    by 0x4E5CA97: _dl_catch_exception (dl-error-skeleton.c:208)
-==28267==    by 0x4E5CB62: _dl_catch_error (dl-error-skeleton.c:227)
-==28267==    by 0x4D7812D: _dlerror_run (dlerror.c:138)
-==28267==    by 0x4D786C7: dlopen_implementation (dlopen.c:71)
-==28267==    by 0x4D786C7: dlopen@@GLIBC_2.34 (dlopen.c:81)
-==28267== 
-==28267== LEAK SUMMARY:
-==28267==    definitely lost: 3,471 bytes in 11 blocks
-==28267==    indirectly lost: 79 bytes in 2 blocks
-==28267==      possibly lost: 14,880 bytes in 14 blocks
-==28267==    still reachable: 3,039,759 bytes in 12,613 blocks
-==28267==         suppressed: 0 bytes in 0 blocks
-==28267== Reachable blocks (those to which a pointer was found) are not shown.
-==28267== To see them, rerun with: --leak-check=full --show-leak-kinds=all
-==28267== 
-==28267== Use --track-origins=yes to see where uninitialised values come from
-==28267== For lists of detected and suppressed errors, rerun with: -s
-==28267== ERROR SUMMARY: 87 errors from 47 contexts (suppressed: 0 from 0)
+==73346== Memcheck, a memory error detector
+==73346== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==73346== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==73346== Command: ./a.out
+==73346== 
+==73346== Conditional jump or move depends on uninitialised value(s)
+==73346==    at 0x111CB9: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
+==73346== 
+==73346== 
+==73346== Process terminating with default action of signal 2 (SIGINT)
+==73346==    at 0x4DFC7E2: read (read.c:26)
+==73346==    by 0x55B42EF: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_ess_singleton.so)
+==73346==    by 0x50584CB: orte_init (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
+==73346==    by 0x4963418: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
+==73346==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
+==73346==    by 0x111CEC: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
+==73346== 
+==73346== HEAP SUMMARY:
+==73346==     in use at exit: 426,313 bytes in 3,323 blocks
+==73346==   total heap usage: 7,170 allocs, 3,847 frees, 932,958 bytes allocated
+==73346== 
+==73346== 24 bytes in 1 blocks are possibly lost in loss record 1,515 of 2,588
+==73346==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==73346==    by 0x4E07F9E: tsearch (tsearch.c:337)
+==73346==    by 0x4D2D06A: __add_to_environ (setenv.c:233)
+==73346==    by 0x48543FF: setenv (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==73346==    by 0x4F7AA87: opal_setenv (in /usr/lib/x86_64-linux-gnu/libopen-pal.so.40.30.2)
+==73346==    by 0x4963D62: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
+==73346==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
+==73346==    by 0x111CEC: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
+==73346== 
+==73346== 256 bytes in 1 blocks are definitely lost in loss record 2,469 of 2,588
+==73346==    at 0x484DA83: calloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==73346==    by 0x55B42BE: ??? (in /usr/lib/x86_64-linux-gnu/openmpi/lib/openmpi3/mca_ess_singleton.so)
+==73346==    by 0x50584CB: orte_init (in /usr/lib/x86_64-linux-gnu/libopen-rte.so.40.30.2)
+==73346==    by 0x4963418: ompi_mpi_init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
+==73346==    by 0x48FCC21: PMPI_Init (in /usr/lib/x86_64-linux-gnu/libmpi.so.40.30.2)
+==73346==    by 0x111CEC: main (in /mnt/c/Users/devan/Desktop/Poisson2D/a.out)
+==73346== 
+==73346== 2,304 bytes in 1 blocks are possibly lost in loss record 2,577 of 2,588
+==73346==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==73346==    by 0x4005D97: malloc (rtld-malloc.h:56)
+==73346==    by 0x4005D97: _dlfo_mappings_segment_allocate (dl-find_object.c:217)
+==73346==    by 0x4005D97: _dl_find_object_update_1 (dl-find_object.c:671)
+==73346==    by 0x4005D97: _dl_find_object_update (dl-find_object.c:804)
+==73346==    by 0x400ECCF: dl_open_worker_begin (dl-open.c:735)
+==73346==    by 0x4E5CA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==73346==    by 0x400DF99: dl_open_worker (dl-open.c:782)
+==73346==    by 0x4E5CA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==73346==    by 0x400E34D: _dl_open (dl-open.c:883)
+==73346==    by 0x4D7863B: dlopen_doit (dlopen.c:56)
+==73346==    by 0x4E5CA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==73346==    by 0x4E5CB62: _dl_catch_error (dl-error-skeleton.c:227)
+==73346==    by 0x4D7812D: _dlerror_run (dlerror.c:138)
+==73346==    by 0x4D786C7: dlopen_implementation (dlopen.c:71)
+==73346==    by 0x4D786C7: dlopen@@GLIBC_2.34 (dlopen.c:81)
+==73346== 
+==73346== LEAK SUMMARY:
+==73346==    definitely lost: 256 bytes in 1 blocks
+==73346==    indirectly lost: 0 bytes in 0 blocks
+==73346==      possibly lost: 2,328 bytes in 2 blocks
+==73346==    still reachable: 423,729 bytes in 3,320 blocks
+==73346==         suppressed: 0 bytes in 0 blocks
+==73346== Reachable blocks (those to which a pointer was found) are not shown.
+==73346== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==73346== 
+==73346== Use --track-origins=yes to see where uninitialised values come from
+==73346== For lists of detected and suppressed errors, rerun with: -s
+==73346== ERROR SUMMARY: 4 errors from 4 contexts (suppressed: 0 from 0)
+[MSI:73356] [[25096,0],0] ORTE_ERROR_LOG: Broken pipe in file ../../../orte/orted/orted_main.c at line 656
