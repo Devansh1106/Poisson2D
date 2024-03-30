@@ -1,0 +1,5 @@
+delx0.333333
+dely0.666667
+diag-22.5
+just_after_diag-9
+far from diagonal-2.25
