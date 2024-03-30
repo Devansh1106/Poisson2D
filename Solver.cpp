@@ -1,5 +1,7 @@
+#include "mpi.h"
 #include <iostream>
 #include <cmath>
+#include <fstream>
 
 
 int main (int argc, char** argv){
@@ -7,6 +9,7 @@ int main (int argc, char** argv){
     int Nx=4, Ny=4;     //Nodes in x and y direction also Nx = Ny; if not then change row_per_process
     double xMin = 0.0, xMax = 1.0, yMin = 0.0, yMax = 2.0;
     double delx = (xMax-xMin)/double(Nx)-1, dely = (yMax-yMin)/double(Ny)-1;
+
 
     //------Mesh Generation---------//
     double Mesh_x[Nx], Mesh_y[Ny];
@@ -17,25 +20,47 @@ int main (int argc, char** argv){
         Mesh_y[j] = yMin + j*dely; 
     }
 
-    ierr = MPI_Init(&argc, &argv)   ;   //MPI Initialization
+    ierr = MPI_Init(&argc, &argv);   //MPI Initialization
     ierr = MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     ierr = MPI_Comm_size(MPI_COMM_WORLD, &size);
+    // std::cout<<"\n"<<ierr<<"\n";
+
+    int* irn_per_rank;
+    int* jcn_per_rank;
+    double* a_per_rank;
+    int s;
+    int recvcount[size];
+    int displ[size];
+
+    //-------------Global a, irn, jcn---------------
+    double* a;
+    int* irn;
+    int* jcn;
+
+
+
+
+    if (rank == 0){
+        for(size_t j = 0; j < size; j++){
+            displ[j] = j;
+        }
+    }
 
 
 //--------Memory Allocation according to MUMPS-----------
 
     int rows_per_process = Nx/size;
     if (rank == 0 || rank == size-1){
-        int s = (Nx-2)*4 + 6;               //may get change if Nx != Ny
-        int* irn = (int*)malloc(s * sizeof(int));
-        int* jcn = (int*)malloc(s * sizeof(int));
-        double* a = (double*)malloc(s * sizeof(double));
+        s = (Nx-2)*4 + 6;               //may get change if Nx != Ny
+        irn_per_rank = new int[s];
+        jcn_per_rank = new int[s];
+        a_per_rank = new double[s];
     }
     else{
-        int s = (Nx-2)*5 + 8;               //may get change if Nx != Ny
-        int* irn = (int*)malloc(s * sizeof(int));
-        int* jcn = (int*)malloc(s * sizeof(int));
-        double* a = (double*)malloc(s * sizeof(double));
+        s = (Nx-2)*5 + 8;               //may get change if Nx != Ny
+        irn_per_rank = new int[s];
+        jcn_per_rank = new int[s];
+        a_per_rank = new double[s];
     }
 
 
@@ -45,64 +70,108 @@ int main (int argc, char** argv){
     for(size_t j = (rank*rows_per_process) + 1; j <= rows_per_process * (rank + 1) ; j++){         //j is index in y-direction
         if(rank == 0 || rank == size-1){
             
-            //---------------irn generation--------------
-            irn[0] = irn[1] = irn[2] = 1 + (rank * Nx) - 1;
-            irn[s-1] = irn[s-2] = irn[s-3] = Nx  + (rank - 1) * Nx;
-            for(size_t i = 2; i < s-3; i++){                                                //wrong
-                irn[k] = irn[k+1] = irn[k+2] = irn[k+3] = i;
+            //---------------irn_per_rank generation--------------
+            irn_per_rank[0] = irn_per_rank[1] = irn_per_rank[2] = (rank * Nx) + 1;
+            irn_per_rank[s-1] = irn_per_rank[s-2] = irn_per_rank[s-3] = (rank * Nx) + Nx;
+            for(size_t i = 2; i < Nx; i++){
+                irn_per_rank[k] = irn_per_rank[k+1] = irn_per_rank[k+2] = irn_per_rank[k+3] = (rank * Nx) + i;
                 k += 4;
             }
 
-            //---------------jcn generation--------------
-            jcn[0] = 1; jcn[1] = 2; jcn[2] = Nx + 1;
-            jcn[s-1] = 2*Nx; jcn[s-2] = (rank*Nx) - 1; jcn[s-3] = Nx - 1;  
+            switch (rank)
+            {
+            case 0:
+            //---------------jcn_per_rank generation--------------
+            jcn_per_rank[0] = 1; jcn_per_rank[1] = 2; jcn_per_rank[2] = Nx + 1;
+            jcn_per_rank[s-1] = 2*Nx; jcn_per_rank[s-2] = Nx; jcn_per_rank[s-3] = Nx - 1;  
             for(size_t i = 3; i < s-3; i= i+4){
-                jcn[i] = irn[i] - 1;                                                        //wrong
-                jcn[i+1] = irn[i+1];
-                jcn[i+2] = irn[i+2] + 1;
-                jcn[i+3] = irn[i+3] + 4;
+                jcn_per_rank[i] = irn_per_rank[i] - 1;                                                        //wrong
+                jcn_per_rank[i+1] = irn_per_rank[i+1];
+                jcn_per_rank[i+2] = irn_per_rank[i+2] + 1;
+                jcn_per_rank[i+3] = irn_per_rank[i+3] + 4;
+            }                
+            break;
+            case 1:
+            //---------------jcn_per_rank generation--------------
+            jcn_per_rank[0] = ((rank - 1) * Nx) + 1; jcn_per_rank[1] = (rank * Nx) + 1; jcn_per_rank[2] = jcn_per_rank[1] + 1;
+            jcn_per_rank[s-1] = (rank + 1) * Nx; jcn_per_rank[s-2] = jcn_per_rank[s-1] - 1; jcn_per_rank[s-3] = Nx * rank;  
+            for(size_t i = 3; i < s-3; i= i+4){
+                jcn_per_rank[i] = irn_per_rank[i] - 4;                                                        //wrong
+                jcn_per_rank[i+1] = irn_per_rank[i+1] - 1;
+                jcn_per_rank[i+2] = irn_per_rank[i+2];
+                jcn_per_rank[i+3] = irn_per_rank[i+3] + 1;
+            }
+            default:
+                break;
             }
         }
         else{
 
-            //---------------irn generation----------------
-            irn[0] = irn[1] = irn[2] = irn[4] = 1 + (Nx*rank);
-            irn[s-1] = irn[s-2] = irn[s-3] = Nx + (Nx*rank);
+            //---------------irn_per_rank generation----------------
+            irn_per_rank[0] = irn_per_rank[1] = irn_per_rank[2] = irn_per_rank[4] = 1 + (Nx*rank);
+            irn_per_rank[s-1] = irn_per_rank[s-2] = irn_per_rank[s-3] = Nx + (Nx*rank);
             for(size_t i = 2; i < s-3; i++){
-                irn[k] = irn[k+1] = irn[k+2] = irn[k+3] = irn[k+4] = i + (Nx*rank);
+                irn_per_rank[k] = irn_per_rank[k+1] = irn_per_rank[k+2] = irn_per_rank[k+3] = irn_per_rank[k+4] = i + (Nx*rank);
                 k += 5;
             }
 
-            //---------------jcn generation----------------
-            jcn[0] = 1 + (rank - 1)*Nx; jcn[1] = Nx + 1 + (rank - 1)*Nx; jcn[2] = Nx + 2 + (rank - 1)*Nx; jcn[3] = (2*Nx) + 1 + (rank - 1)*Nx;
-            jcn[s-1] = 3*Nx + (rank - 1)*Nx; jcn[s-2] = 2*Nx + (rank - 1)*Nx; jcn[s-3] = (2*Nx) - 1 + (rank - 1)*Nx; jcn[s-4] = Nx + (rank - 1)*Nx;  
+            //---------------jcn_per_rank generation----------------
+            jcn_per_rank[0] = 1 + (rank - 1)*Nx; jcn_per_rank[1] = Nx + 1 + (rank - 1)*Nx; jcn_per_rank[2] = Nx + 2 + (rank - 1)*Nx; jcn_per_rank[3] = (2*Nx) + 1 + (rank - 1)*Nx;
+            jcn_per_rank[s-1] = 3*Nx + (rank - 1)*Nx; jcn_per_rank[s-2] = 2*Nx + (rank - 1)*Nx; jcn_per_rank[s-3] = (2*Nx) - 1 + (rank - 1)*Nx; jcn_per_rank[s-4] = Nx + (rank - 1)*Nx;  
             for(size_t i = 4; i < s-3; i= i+5){
-                jcn[i] = irn[i] - 4;
-                jcn[i+1] = irn[i+1] - 1;
-                jcn[i+2] = irn[i+2];
-                jcn[i+3] = irn[i+3] + 1;
-                jcn[i+4] = irn[i+4] + 4;
+                jcn_per_rank[i] = irn_per_rank[i] - 4;
+                jcn_per_rank[i+1] = irn_per_rank[i+1] - 1;
+                jcn_per_rank[i+2] = irn_per_rank[i+2];
+                jcn_per_rank[i+3] = irn_per_rank[i+3] + 1;
+                jcn_per_rank[i+4] = irn_per_rank[i+4] + 4;
             }
 
         }
         ierr = MPI_Barrier(MPI_COMM_WORLD);
 
-        //---------------a generation----------------------
+        //---------------a_per_rank generation----------------------
         for(size_t i = 0; i < s; i++){
-            if(irn[i] - jcn[i] == 0.0)
-                a[i] = -2/pow(delx,2) - 2/pow(dely,2);
-            else if (irn[i] - jcn[i] == 1.0 || irn[i] - jcn[i] == -1.0)
-                a[i] = -1.0/pow(delx,2);
-            else if (irn[i] - jcn[i] == -Nx || irn[i] - jcn[i] == Nx)
-                a[i] = -1.0/pow(dely,2);
+            if(irn_per_rank[i] - jcn_per_rank[i] == 0.0)
+                a_per_rank[i] = -2/pow(delx,2) - 2/pow(dely,2);
+            else if (irn_per_rank[i] - jcn_per_rank[i] == 1.0 || irn_per_rank[i] - jcn_per_rank[i] == -1.0)
+                a_per_rank[i] = -1.0/pow(delx,2);
+            else if (irn_per_rank[i] - jcn_per_rank[i] == -Nx || irn_per_rank[i] - jcn_per_rank[i] == Nx)
+                a_per_rank[i] = -1.0/pow(dely,2);
         }
     }
-    
 
-    
+    ierr = MPI_Gather(&s, 1, MPI_INT, recvcount, 1, MPI_INT, 0, MPI_COMM_WORLD);
+    if(rank == 0){
+        int S = 0;
+        for(size_t i = 0; i < size; i++){
+            S = recvcount[i] + S;
+        }
+        double* a = new double[S];
+        int* irn = new int[S];
+        int* jcn = new int[S];
+    }
 
+    ierr = MPI_Gatherv(a_per_rank, s, MPI_DOUBLE, a, recvcount, displ, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
+    if(rank == 0){
+        std::ofstream f11("a.txt");
+        for(size_t i = 0; i < s; i++){
+            f11<<a[i]<<"\n";
+        }
+        f11.close();
+    }
 
+    MPI_Barrier(MPI_COMM_WORLD);
 
+    delete[] irn_per_rank;
+    delete[] jcn_per_rank;
+    delete[] a_per_rank;
+    if(rank == 0){
+        delete[] irn;
+        delete[] jcn;
+        delete[] a;
+    }
+
+    MPI_Finalize();
     return 0;
 }
