@@ -131,13 +131,15 @@ int main (int argc, char** argv){
                 jcn_per_rank[0] = 1; jcn_per_rank[1] = 2; jcn_per_rank[2] = Nx + 1;
                 jcn_per_rank[s-1] = 2*Nx; jcn_per_rank[s-2] = Nx; jcn_per_rank[s-3] = Nx - 1;  
                 for(size_t i = 3; i < s-3; i= i+4){
-                    jcn_per_rank[i] = irn_per_rank[i] - 1;                                                        //wrong
+                    jcn_per_rank[i] = irn_per_rank[i] - 1;
                     jcn_per_rank[i+1] = irn_per_rank[i+1];
                     jcn_per_rank[i+2] = irn_per_rank[i+2] + 1;
                     jcn_per_rank[i+3] = irn_per_rank[i+3] + 4;
                 }
+
+                //---------------------rhs_per_rank generation----------
                 rhs_per_rank[0] = rhs_expression(Mesh_x[1],Mesh_y[1]) - left_bound(Mesh_y[0])/pow(delx, 2) - lower_bound(Mesh_x[0])/pow(dely, 2);
-                rhs_per_rank[Nx-1] = rhs_expression(Mesh_x[Nx-2], Mesh_y[Nx-2]) - right_bound(Mesh_y[1])/pow(delx,2) - lower_bound(Mesh_x[Nx-1])/pow(dely,2);
+                rhs_per_rank[Nx-1] = rhs_expression(Mesh_x[Nx-2], Mesh_y[Nx-2]) - right_bound(Mesh_y[Nx-1])/pow(delx,2) - lower_bound(Mesh_x[Nx-2])/pow(dely,2);
                 for(size_t i = 1; i < Nx-1; i++){
                     rhs_per_rank[i] = rhs_expression(Mesh_x[i+1], Mesh_y[i+1]) - lower_bound(Mesh_x[i+1])/pow(dely,2);
                 }
@@ -147,12 +149,18 @@ int main (int argc, char** argv){
                 jcn_per_rank[0] = ((rank - 1) * Nx) + 1; jcn_per_rank[1] = (rank * Nx) + 1; jcn_per_rank[2] = jcn_per_rank[1] + 1;
                 jcn_per_rank[s-1] = (rank + 1) * Nx; jcn_per_rank[s-2] = jcn_per_rank[s-1] - 1; jcn_per_rank[s-3] = Nx * rank;  
                 for(size_t i = 3; i < s-3; i= i+4){
-                    jcn_per_rank[i] = irn_per_rank[i] - 4;                                                        //wrong
+                    jcn_per_rank[i] = irn_per_rank[i] - 4;
                     jcn_per_rank[i+1] = irn_per_rank[i+1] - 1;
                     jcn_per_rank[i+2] = irn_per_rank[i+2];
                     jcn_per_rank[i+3] = irn_per_rank[i+3] + 1;
                 }
-                
+
+                //---------------rhs_per_rank generation------------------
+                rhs_per_rank[0] = rhs_expression(Mesh_x[1], Mesh_y[1]) - left_bound(Mesh_y[0])/pow(delx,2) - top_bound(Mesh_x[0])/pow(dely,2);
+                rhs_per_rank[Nx-1] = rhs_expression(Mesh_x[Nx-2], Mesh_y[Nx-2]) - right_bound(Mesh_y[Nx-1])/pow(delx,2) - top_bound(Mesh_x[Nx-2])/pow(dely,2);
+                for(size_t i = 1; i < Nx - 1; i++){
+                    rhs_per_rank[i] = rhs_expression(Mesh_x[i+1], Mesh_y[i+1]) - top_bound(Mesh_x[i+1])/pow(dely, 2);
+                }
             }
         }
         else{
@@ -176,6 +184,12 @@ int main (int argc, char** argv){
                 jcn_per_rank[i+4] = irn_per_rank[i+4] + 4;
             }
 
+            //------------rhs_per_rank generation--------------------
+            rhs_per_rank[0] = rhs_expression(Mesh_x[1], Mesh_y[1]) - left_bound(Mesh_y[0])/pow(delx,2);
+            rhs_per_rank[Nx-1] = rhs_expression(Mesh_x[Nx-2],Mesh_y[Nx-2]) - right_bound(Mesh_y[Nx-1])/pow(delx,2);
+            for(size_t i = 1; i < Nx - 1; i++){
+                rhs_per_rank[i] = rhs_expression(Mesh_x[i+1],Mesh_y[i+1]);
+            }
         }
         ierr = MPI_Barrier(MPI_COMM_WORLD);
 
@@ -217,6 +231,7 @@ int main (int argc, char** argv){
     ierr = MPI_Gatherv(a_per_rank, s, MPI_DOUBLE, a, recvcount, displ, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     ierr = MPI_Gatherv(irn_per_rank, s, MPI_INT, irn, recvcount, displ, MPI_INT, 0, MPI_COMM_WORLD);
     ierr = MPI_Gatherv(jcn_per_rank, s, MPI_INT, jcn, recvcount, displ, MPI_INT, 0, MPI_COMM_WORLD);
+    ierr = MPI_Gather()
     
 
     // if(rank == 0){
